@@ -1,6 +1,9 @@
 version: "3.8"
 
 services:
+  # https://stackoverflow.com/questions/37536687/what-is-the-relation-between-docker0-and-eth0
+  # https://docs.docker.com/network/host/
+  # https://rmoff.net/2019/11/29/using-tcpdump-with-docker/
   tcpdump:
     build:
       context: ./tcpdump
@@ -9,7 +12,7 @@ services:
     image: tcpdump
     networks: 
       - trap_network
-      
+
   listener:
     build:
       context: ./listener
