@@ -17,11 +17,23 @@ type Response struct {
 }
 
 func main() {
+	// Allowing tcpdump and listener to start first.
+	time.Sleep(time.Millisecond * 2250)
+	
 	logger := log.New(os.Stdout, "", 0)
 	logger.Println("Starting trap crap...")
 
+	/*addresses, err := net.LookupIP("listener")
+	if err != nil {
+		logger.Fatal("looking up listener", err)
+	}
+	if len(addresses) < 1 {
+		logger.Fatal("net.LookupIP('listener') returned empty addresses")
+	}*/
+
 	goSnmpCFG := &GoSnmpCFG{
-		Target:             "127.0.0.1",
+		//Target:             addresses[0].String(),
+		Target:             "listener",
 		Port:               1162,
 		Transport:          "udp",
 		Community:          "public",

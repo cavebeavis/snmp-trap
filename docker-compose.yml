@@ -1,5 +1,38 @@
 version: "3.8"
 
 services:
+  tcpdump:
+    build:
+      context: ./tcpdump
+      dockerfile: Dockerfile
+    container_name: tcpdump
+    image: tcpdump
+    networks: 
+      - trap_network
+      
   listener:
-    
+    build:
+      context: ./listener
+      dockerfile: Dockerfile
+    container_name: trap-listener
+    image: trap-listener
+    networks: 
+      - trap_network
+    depends_on: 
+      - tcpdump
+  
+  sender:
+    build:
+      context: ./sender
+      dockerfile: Dockerfile
+    container_name: trap-sender
+    image: trap-sender
+    networks: 
+      - trap_network
+    depends_on: 
+      - tcpdump
+      - listener
+
+networks:
+  trap_network:
+    driver: bridge
